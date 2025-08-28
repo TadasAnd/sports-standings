@@ -52,7 +52,7 @@ const AddTeamsAndScores = ({
         <>
           <div className="bg-zinc-100 rounded-md p-3 flex flex-col gap-2">
             <div className="text-sm font-bold">Add Team</div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 min-w-0">
               <input
                 type="text"
                 placeholder="Team Name"
@@ -61,14 +61,14 @@ const AddTeamsAndScores = ({
                   setErrorMessage(null);
                   setTeamName(e.target.value);
                 }}
-                className="flex-1 bg-white rounded-md p-2 border border-zinc-300"
+                className="flex-1 min-w-0 bg-white rounded-md p-2 border border-zinc-300"
               />
               <button
                 onClick={handleAddTeam}
                 disabled={!teamName.trim()}
                 className={`${
                   getCardTheme(competitionType).button.primary
-                } text-white px-3 py-1 rounded-md cursor-pointer  disabled:bg-gray-300 disabled:cursor-not-allowed`}
+                } text-white px-3 py-1 rounded-md cursor-pointer whitespace-nowrap flex-shrink-0 disabled:bg-gray-300 disabled:cursor-not-allowed`}
               >
                 Add
               </button>

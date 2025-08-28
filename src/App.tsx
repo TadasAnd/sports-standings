@@ -6,7 +6,7 @@ function AppContent() {
   const { competitions } = state;
 
   return (
-    <div className="flex gap-8 flex-col lg:flex-row items-center justify-center p-4 lg:p-8 max-w-screen-xl mx-auto pb-20">
+    <div className="flex gap-4 flex-col xl:gap-8 lg:flex-row mx-auto items-center justify-center p-1 sm:p-2 lg:p-8 max-w-screen-xl pb-20">
       {competitions.map((competition) => (
         <CompetitionCard
           key={competition.id}
