@@ -1,12 +1,7 @@
 import { useSports } from "../context";
-import {
-  type BasketballStandingsRow,
-  type CompetitionType,
-  type FootballStandingsRow,
-  type TennisStandingsRow,
-} from "../types";
-import { getFlag } from "../utils";
+import { type CompetitionType } from "../types";
 import { getCardTheme } from "../utils/theme";
+import { StandingsRow } from "./StandingsRow";
 
 interface CompetitionTableProps {
   competitionId: string;
@@ -38,74 +33,6 @@ const CompetitionTable = ({ competitionId }: CompetitionTableProps) => {
         return ["Team", "P", "W", "D", "L", "Pts"];
       case "basketball":
         return ["Team", "W", "D", "L", "Pts"];
-    }
-  };
-
-  const renderRow = (
-    row: FootballStandingsRow | BasketballStandingsRow | TennisStandingsRow,
-    competitionType: CompetitionType
-  ) => {
-    if (competitionType === "tennis") {
-      const tennisRow = row as TennisStandingsRow;
-      return (
-        <div
-          className={`grid grid-cols-12 py-2 border-b px-3 ${
-            getCardTheme(competitionType).table.body +
-            " " +
-            getCardTheme(competitionType).table.border
-          }`}
-        >
-          <div className="col-span-6 capitalize">
-            {getPlayerName(tennisRow.playerId)}
-          </div>
-          <div className="text-center">{tennisRow.matches}</div>
-          <div className="text-center col-span-2 flex items-center justify-center">
-            {tennisRow.wins}
-            <span className="ml-1 text-green-500">✓</span>
-          </div>
-          <div className="text-center col-span-2 flex items-center justify-center">
-            {tennisRow.losses}
-            <span className="ml-1 text-red-500">✗</span>
-          </div>
-          <div className="text-center">{tennisRow.points}</div>
-        </div>
-      );
-    } else if (competitionType === "football") {
-      const teamRow = row as FootballStandingsRow;
-      return (
-        <div
-          className={`grid grid-cols-12 py-2 border-b border-zinc-200 px-3 font-bold`}
-        >
-          <div className="col-span-7 capitalize">
-            {getTeamName(teamRow.teamId)}
-          </div>
-          <div className="text-center">{teamRow.played}</div>
-          <div className="text-center">{teamRow.wins}</div>
-          <div className="text-center">{teamRow.draws}</div>
-          <div className="text-center">{teamRow.losses}</div>
-          <div className="text-center">{teamRow.points}</div>
-        </div>
-      );
-    } else if (competitionType === "basketball") {
-      const teamRow = row as BasketballStandingsRow;
-      return (
-        <div
-          className={`grid grid-cols-12 py-2 px-3 ${
-            getCardTheme(competitionType).table.body
-          }`}
-        >
-          <div className="col-span-8 capitalize">
-            {getFlag(getTeamName(teamRow.teamId) || "")}{" "}
-            {getTeamName(teamRow.teamId) || ""}
-          </div>
-          <div className="text-center">{teamRow.wins}</div>
-          <div className="text-center">{teamRow.draws}</div>
-          <div className="text-center">{teamRow.losses}</div>
-          <div className="text-center">{teamRow.points}</div>
-        </div>
-      );
-    } else {
-      return null;
     }
   };
 
@@ -156,7 +83,24 @@ const CompetitionTable = ({ competitionId }: CompetitionTableProps) => {
           getCardTheme(competition.type).table.text
         }`}
       >
-        {standings.map((row) => renderRow(row, competition.type))}
+        {standings.length === 0 && (
+          <div className="text-center py-4">No standings available</div>
+        )}
+        {standings.map((row, index) => (
+          <StandingsRow
+            key={`${
+              "teamId" in row
+                ? row.teamId
+                : "playerId" in row
+                ? row.playerId
+                : "unknown"
+            }-${competition.type}-${index}`}
+            row={row}
+            competitionType={competition.type}
+            getTeamName={getTeamName}
+            getPlayerName={getPlayerName}
+          />
+        ))}
       </div>
     </div>
   );
