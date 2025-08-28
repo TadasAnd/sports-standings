@@ -55,7 +55,8 @@ export const getCardTheme = (type: CompetitionType) => {
         text: "text-black",
         border: "border-zinc-200",
       },
-      border: "border-green-200",
+      border:
+        "border-[#1a5f1a] hover:border-[#1a5f1a]/80 active:border-[#1a5f1a]/90",
       headerText: "text-white font-semibold",
       height: "overflow-y-auto max-h-[520px]",
     },

@@ -49,7 +49,7 @@ export const AddScoreModal: React.FC<AddScoreModalProps> = ({
             <select
               value={homeTeam}
               onChange={(e) => setHomeTeam(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md capitalize focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md capitalize focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
             >
               <option value="">Select Team</option>
               {teams
@@ -68,7 +68,7 @@ export const AddScoreModal: React.FC<AddScoreModalProps> = ({
             <select
               value={awayTeam}
               onChange={(e) => setAwayTeam(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md capitalize focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md capitalize focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
             >
               <option value="">Select Team</option>
               {teams
@@ -91,7 +91,7 @@ export const AddScoreModal: React.FC<AddScoreModalProps> = ({
               type="number"
               value={homeScore}
               onChange={(e) => setHomeScore(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
               min="0"
             />
           </div>
@@ -103,7 +103,7 @@ export const AddScoreModal: React.FC<AddScoreModalProps> = ({
               type="number"
               value={awayScore}
               onChange={(e) => setAwayScore(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
               min="0"
             />
           </div>

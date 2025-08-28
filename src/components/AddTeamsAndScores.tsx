@@ -61,7 +61,7 @@ const AddTeamsAndScores = ({
                   setErrorMessage(null);
                   setTeamName(e.target.value);
                 }}
-                className="flex-1 min-w-0 bg-white rounded-md p-2 border border-zinc-300"
+                className="flex-1 min-w-0 bg-white rounded-md p-2 border border-zinc-300 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               <button
                 onClick={handleAddTeam}
@@ -84,7 +84,7 @@ const AddTeamsAndScores = ({
               <select
                 value={homeTeam}
                 onChange={(e) => setHomeTeam(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold"
+                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Home Team</option>
                 {teams
@@ -99,7 +99,7 @@ const AddTeamsAndScores = ({
               <select
                 value={awayTeam}
                 onChange={(e) => setAwayTeam(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold"
+                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Away Team</option>
                 {teams
@@ -118,7 +118,7 @@ const AddTeamsAndScores = ({
                 placeholder="Home Score"
                 value={homeScore}
                 onChange={(e) => setHomeScore(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border border-zinc-300"
+                className="bg-white rounded-md px-3 py-1 border border-zinc-300 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 min="0"
               />
 
@@ -127,7 +127,7 @@ const AddTeamsAndScores = ({
                 placeholder="Away Score"
                 value={awayScore}
                 onChange={(e) => setAwayScore(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border border-zinc-300"
+                className="bg-white rounded-md px-3 py-1 border border-zinc-300 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 min="0"
               />
             </div>
@@ -244,6 +244,7 @@ const AddTeamsAndScores = ({
             onAddScore={handleAddScore}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
+            competitionType={competitionType}
           />
         </>
       );

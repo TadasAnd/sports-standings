@@ -1,6 +1,7 @@
 import React from "react";
-import type { Team } from "../../types";
+import type { CompetitionType, Team } from "../../types";
 import { Modal } from "../Modal";
+import { getCardTheme } from "../../utils/theme";
 
 interface AddTennisWinnerModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface AddTennisWinnerModalProps {
   onAddScore: () => Promise<boolean>;
   errorMessage: string | null;
   setErrorMessage: (errorMessage: string | null) => void;
+  competitionType: CompetitionType;
 }
 
 export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
@@ -30,6 +32,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
   onAddScore,
   errorMessage,
   setErrorMessage,
+  competitionType,
 }) => {
   const handleSubmit = async () => {
     const result = await onAddScore();
@@ -49,7 +52,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Player 1
+              Select Player 1
             </label>
             <select
               value={homeTeam}
@@ -57,9 +60,9 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                 setHomeTeam(e.target.value);
                 setErrorMessage(null);
               }}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize cursor-pointer"
             >
-              <option value="">Select Player</option>
+              <option value="">Player 1</option>
               {teams
                 .filter((team) => team.id !== awayTeam)
                 .map((team) => (
@@ -71,7 +74,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Player 2
+              Select Player 2
             </label>
             <select
               value={awayTeam}
@@ -79,9 +82,9 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                 setAwayTeam(e.target.value);
                 setErrorMessage(null);
               }}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize cursor-pointer"
             >
-              <option value="">Select Player</option>
+              <option value="">Player 2</option>
               {teams
                 .filter((team) => team.id !== homeTeam)
                 .map((team) => (
@@ -102,8 +105,10 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             <div
               className={`flex items-center justify-between p-3 border-2 capitalize rounded-md cursor-pointer transition-colors ${
                 homeTeam && homeScore === homeTeam
-                  ? "border-green-500 bg-green-50"
-                  : "border-gray-200 hover:border-green-300"
+                  ? getCardTheme(competitionType).border
+                  : `border-zinc-200 hover:${
+                      getCardTheme(competitionType).border
+                    }`
               }`}
               onClick={() => {
                 if (homeTeam) {
@@ -122,7 +127,11 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                   : "Select Player 1 first"}
               </span>
               {homeTeam && homeScore === homeTeam && (
-                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <div
+                  className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                    getCardTheme(competitionType).button.primary
+                  }`}
+                >
                   <svg
                     className="w-3 h-3 text-white"
                     fill="currentColor"
@@ -141,8 +150,10 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             <div
               className={`flex items-center justify-between p-3 border-2 rounded-md cursor-pointer transition-colors ${
                 awayTeam && homeScore === awayTeam
-                  ? "border-green-500 bg-green-50"
-                  : "border-gray-200 hover:border-green-300"
+                  ? getCardTheme(competitionType).border
+                  : `border-zinc-200 hover:${
+                      getCardTheme(competitionType).border
+                    }`
               }`}
               onClick={() => {
                 if (awayTeam) {
@@ -161,7 +172,11 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                   : "Select Player 2 first"}
               </span>
               {awayTeam && homeScore === awayTeam && (
-                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <div
+                  className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                    getCardTheme(competitionType).button.primary
+                  }`}
+                >
                   <svg
                     className="w-3 h-3 text-white"
                     fill="currentColor"
@@ -183,7 +198,9 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
           <button
             onClick={handleSubmit}
             disabled={!homeTeam || !awayTeam || !homeScore}
-            className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className={`flex-1 ${
+              getCardTheme(competitionType).button.primary
+            } text-white px-4 py-2 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed`}
           >
             Add Result
           </button>
