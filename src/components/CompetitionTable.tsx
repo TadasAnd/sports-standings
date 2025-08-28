@@ -79,12 +79,15 @@ const CompetitionTable = ({ competitionId }: CompetitionTableProps) => {
         ))}
       </div>
       <div
-        className={`max-h-[300px] lg:max-h-[300px] overflow-y-auto ${
+        className={`${getCardTheme(competition.type).height} ${
           getCardTheme(competition.type).table.text
         }`}
       >
         {standings.length === 0 && (
-          <div className="text-center py-4">No standings available</div>
+          <div className="text-center py-4">
+            No standings available <br /> Add{" "}
+            {competition.type === "tennis" ? "players " : "teams "} first
+          </div>
         )}
         {standings.map((row, index) => (
           <StandingsRow

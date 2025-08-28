@@ -19,6 +19,7 @@ export const getCardTheme = (type: CompetitionType) => {
       },
       border: "border-gray-200",
       headerText: "text-white font-bold",
+      height: "max-h-[300px] lg:max-h-[300px] overflow-y-auto",
     },
     basketball: {
       header: "bg-[#003c37]",
@@ -37,6 +38,7 @@ export const getCardTheme = (type: CompetitionType) => {
       },
       border: "border-[#00211b]",
       headerText: "text-white font-extrabold",
+      height: "max-h-[300px] lg:max-h-[300px] overflow-y-auto",
     },
     tennis: {
       header: "bg-[#1a5f1a]",
@@ -55,6 +57,7 @@ export const getCardTheme = (type: CompetitionType) => {
       },
       border: "border-green-200",
       headerText: "text-white font-semibold",
+      height: "overflow-y-auto max-h-[520px]",
     },
   };
 

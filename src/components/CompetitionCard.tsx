@@ -85,8 +85,8 @@ const CompetitionCard = ({
       if (existingMatch) {
         setErrorMessage(
           competition.type === "tennis"
-            ? "These players have already played against each other!"
-            : "These teams have already played against each other!"
+            ? "Players already played against each other!"
+            : "Teams already played against each other!"
         );
         return false;
       }
@@ -152,7 +152,7 @@ const CompetitionCard = ({
       <div
         className={`p-4 ${
           getCardTheme(competition.type).body
-        }  space-y-4 rounded-b-md min-h-[400px] lg:min-h-[662px]`}
+        }  space-y-4 rounded-b-md min-h-[400px] lg:min-h-[700px]`}
       >
         <AddTeamsAndScores
           competitionType={competition.type}

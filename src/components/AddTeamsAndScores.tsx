@@ -147,7 +147,7 @@ const AddTeamsAndScores = ({
     case "basketball":
       return (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between pb-3">
             <button
               className={`${
                 getCardTheme(competitionType).button.primary
