@@ -43,7 +43,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             <select
               value={homeTeam}
               onChange={(e) => setHomeTeam(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
             >
               <option value="">Select Player</option>
               {teams
@@ -62,7 +62,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             <select
               value={awayTeam}
               onChange={(e) => setAwayTeam(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
             >
               <option value="">Select Player</option>
               {teams
@@ -82,7 +82,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
           </label>
           <div className="space-y-2">
             <div
-              className={`flex items-center justify-between p-3 border-2 rounded-md cursor-pointer transition-colors ${
+              className={`flex items-center justify-between p-3 border-2 capitalize rounded-md cursor-pointer transition-colors ${
                 homeTeam && homeScore === homeTeam
                   ? "border-green-500 bg-green-50"
                   : "border-gray-200 hover:border-green-300"
