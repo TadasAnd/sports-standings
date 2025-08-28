@@ -150,3 +150,31 @@ export const generateId = (prefix: string): string => {
     .toString(36)
     .substring(2, 11)}`;
 };
+
+export const validateUniqueTeamName = (
+  teamName: string,
+  teams: Team[],
+  competitionId: string
+): boolean => {
+  const teamsInCompetition = teams.filter(
+    (team) => team.competitionId === competitionId
+  );
+  return !teamsInCompetition.some(
+    (team) => team.name.toLowerCase() === teamName.toLowerCase()
+  );
+};
+
+export const getValidationError = (
+  teamName: string,
+  teams: Team[],
+  competitionId: string,
+  isPlayer: boolean = false
+): string | null => {
+  if (!validateUniqueTeamName(teamName.trim(), teams, competitionId)) {
+    return `${
+      isPlayer ? "Player" : "Team"
+    } "${teamName.trim()}" already exists`;
+  }
+
+  return null;
+};

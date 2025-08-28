@@ -8,11 +8,13 @@ interface AddTennisWinnerModalProps {
   teams: Team[];
   homeTeam: string;
   awayTeam: string;
-  homeScore: string; // Used to store winner ID
+  homeScore: string;
   setHomeTeam: (team: string) => void;
   setAwayTeam: (team: string) => void;
   setHomeScore: (winner: string) => void;
-  onAddScore: () => void;
+  onAddScore: () => Promise<boolean>;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
 export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
@@ -26,14 +28,23 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
   setAwayTeam,
   setHomeScore,
   onAddScore,
+  errorMessage,
+  setErrorMessage,
 }) => {
-  const handleSubmit = () => {
-    onAddScore();
+  const handleSubmit = async () => {
+    const result = await onAddScore();
+    if (result) {
+      closeModal();
+    }
+  };
+
+  const closeModal = () => {
+    setErrorMessage(null);
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add Match Winner">
+    <Modal isOpen={isOpen} onClose={closeModal} title="Add Match Winner">
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -42,7 +53,10 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             </label>
             <select
               value={homeTeam}
-              onChange={(e) => setHomeTeam(e.target.value)}
+              onChange={(e) => {
+                setHomeTeam(e.target.value);
+                setErrorMessage(null);
+              }}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
             >
               <option value="">Select Player</option>
@@ -61,7 +75,10 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             </label>
             <select
               value={awayTeam}
-              onChange={(e) => setAwayTeam(e.target.value)}
+              onChange={(e) => {
+                setAwayTeam(e.target.value);
+                setErrorMessage(null);
+              }}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 capitalize focus:ring-green-500 focus:border-green-500"
             >
               <option value="">Select Player</option>
@@ -75,6 +92,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             </select>
           </div>
         </div>
+        <div className="text-sm text-red-500 text-end h-5">{errorMessage}</div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -87,7 +105,12 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                   ? "border-green-500 bg-green-50"
                   : "border-gray-200 hover:border-green-300"
               }`}
-              onClick={() => homeTeam && setHomeScore(homeTeam)}
+              onClick={() => {
+                if (homeTeam) {
+                  setHomeScore(homeTeam);
+                  setErrorMessage(null);
+                }
+              }}
             >
               <span
                 className={`font-medium ${
@@ -121,7 +144,12 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
                   ? "border-green-500 bg-green-50"
                   : "border-gray-200 hover:border-green-300"
               }`}
-              onClick={() => awayTeam && setHomeScore(awayTeam)}
+              onClick={() => {
+                if (awayTeam) {
+                  setHomeScore(awayTeam);
+                  setErrorMessage(null);
+                }
+              }}
             >
               <span
                 className={`font-medium ${
@@ -160,7 +188,7 @@ export const AddTennisWinnerModal: React.FC<AddTennisWinnerModalProps> = ({
             Add Result
           </button>
           <button
-            onClick={onClose}
+            onClick={closeModal}
             className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
           >
             Cancel

@@ -1,7 +1,7 @@
-import React from "react";
-import type { CompetitionType } from "../../types";
+import type { CompetitionType, Team } from "../../types";
 import { Modal } from "../Modal";
 import { getCardTheme } from "../../utils/theme";
+import { getValidationError } from "../../utils/storage";
 
 interface AddTeamModalProps {
   isOpen: boolean;
@@ -10,6 +10,10 @@ interface AddTeamModalProps {
   setTeamName: (name: string) => void;
   onAddTeam: () => void;
   competitionType: CompetitionType;
+  competitionId: string;
+  teams: Team[];
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
 export const AddTeamModal: React.FC<AddTeamModalProps> = ({
@@ -19,17 +23,39 @@ export const AddTeamModal: React.FC<AddTeamModalProps> = ({
   setTeamName,
   onAddTeam,
   competitionType,
+  competitionId,
+  teams,
+  errorMessage,
+  setErrorMessage,
 }) => {
   const isPlayer = competitionType === "tennis";
   const entity = isPlayer ? "Player" : "Team";
 
-  const handleSubmit = () => {
-    onAddTeam();
+  const closeModal = () => {
+    setErrorMessage(null);
+    setTeamName("");
     onClose();
   };
 
+  const handleSubmit = () => {
+    const validationError = getValidationError(
+      teamName,
+      teams,
+      competitionId,
+      isPlayer
+    );
+
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
+    onAddTeam();
+    closeModal();
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={`Add ${entity}`}>
+    <Modal isOpen={isOpen} onClose={closeModal} title={`Add ${entity}`}>
       <div className="space-y-4">
         <input
           type="text"
@@ -38,6 +64,7 @@ export const AddTeamModal: React.FC<AddTeamModalProps> = ({
           onChange={(e) => setTeamName(e.target.value)}
           className={`w-full p-2 border border-gray-300 rounded-md`}
         />
+        <div className="text-red-500 text-sm text-end h-5">{errorMessage}</div>
 
         <div className="flex gap-2">
           <button
@@ -50,7 +77,7 @@ export const AddTeamModal: React.FC<AddTeamModalProps> = ({
             Add {entity}
           </button>
           <button
-            onClick={onClose}
+            onClick={closeModal}
             className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
           >
             Cancel

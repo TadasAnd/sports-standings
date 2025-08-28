@@ -7,9 +7,10 @@ import { AddTennisWinnerModal } from "./modals/AddTennisWinnerModal";
 
 interface AddTeamsAndScoresProps {
   competitionType: CompetitionType;
+  competitionId: string;
   teams: Team[];
   handleAddTeam: () => void;
-  handleAddScore: () => void;
+  handleAddScore: () => Promise<boolean>;
   homeTeam: string;
   awayTeam: string;
   homeScore: string;
@@ -20,10 +21,13 @@ interface AddTeamsAndScoresProps {
   setAwayScore: (awayScore: string) => void;
   teamName: string;
   setTeamName: (teamName: string) => void;
+  errorMessage: string | null;
+  setErrorMessage: (errorMessage: string | null) => void;
 }
 
 const AddTeamsAndScores = ({
   competitionType,
+  competitionId,
   teams,
   handleAddTeam,
   handleAddScore,
@@ -37,6 +41,8 @@ const AddTeamsAndScores = ({
   setAwayScore,
   teamName,
   setTeamName,
+  errorMessage,
+  setErrorMessage,
 }: AddTeamsAndScoresProps) => {
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
@@ -51,7 +57,10 @@ const AddTeamsAndScores = ({
                 type="text"
                 placeholder="Team Name"
                 value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
+                onChange={(e) => {
+                  setErrorMessage(null);
+                  setTeamName(e.target.value);
+                }}
                 className="flex-1 bg-white rounded-md p-2 border border-zinc-300"
               />
               <button
@@ -64,6 +73,9 @@ const AddTeamsAndScores = ({
                 Add
               </button>
             </div>
+            <div className="text-red-500 text-sm text-end h-5">
+              {errorMessage}
+            </div>
           </div>
           <div className="bg-zinc-100 rounded-md p-3 flex flex-col gap-2">
             <div className="text-sm font-bold">Add Score</div>
@@ -72,7 +84,7 @@ const AddTeamsAndScores = ({
               <select
                 value={homeTeam}
                 onChange={(e) => setHomeTeam(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border border-zinc-300 text-gray-700 cursor-pointer font-bold"
+                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold"
               >
                 <option value="">Home Team</option>
                 {teams
@@ -87,7 +99,7 @@ const AddTeamsAndScores = ({
               <select
                 value={awayTeam}
                 onChange={(e) => setAwayTeam(e.target.value)}
-                className="bg-white rounded-md px-3 py-1 border border-zinc-300 text-gray-700 cursor-pointer font-bold"
+                className="bg-white rounded-md px-3 py-1 border capitalize border-zinc-300 text-gray-700 cursor-pointer font-bold"
               >
                 <option value="">Away Team</option>
                 {teams
@@ -161,6 +173,10 @@ const AddTeamsAndScores = ({
             setTeamName={setTeamName}
             onAddTeam={handleAddTeam}
             competitionType={competitionType}
+            competitionId={competitionId}
+            teams={teams}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
 
           <AddScoreModal
@@ -209,6 +225,10 @@ const AddTeamsAndScores = ({
             setTeamName={setTeamName}
             onAddTeam={handleAddTeam}
             competitionType={competitionType}
+            competitionId={competitionId}
+            teams={teams}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
 
           <AddTennisWinnerModal
@@ -222,6 +242,8 @@ const AddTeamsAndScores = ({
             setAwayTeam={setAwayTeam}
             setHomeScore={setHomeScore}
             onAddScore={handleAddScore}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
         </>
       );

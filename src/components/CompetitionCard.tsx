@@ -11,6 +11,7 @@ import CompetitionTable from "./CompetitionTable";
 import { getCardTheme } from "../utils/theme";
 import AddTeamsAndScores from "./AddTeamsAndScores";
 import RecentMatches from "./RecentMatches";
+import { getValidationError } from "../utils/storage";
 import { BasketballIcon, TennisIcon } from "../utils/svgs";
 
 interface CompetitionCardProps {
@@ -30,19 +31,32 @@ const CompetitionCard = ({
   const [awayTeam, setAwayTeam] = useState("");
   const [homeScore, setHomeScore] = useState("");
   const [awayScore, setAwayScore] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleAddTeam = async () => {
-    if (teamName.trim()) {
-      try {
-        await actions.addTeam(teamName.trim(), competition.id);
-        setTeamName("");
-      } catch (error) {
-        console.error("Error adding team:", error);
-      }
+    const isPlayer = competition.type === "tennis";
+    const validationError = getValidationError(
+      teamName,
+      teams,
+      competition.id,
+      isPlayer
+    );
+
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
+    try {
+      await actions.addTeam(teamName.trim(), competition.id);
+      setTeamName("");
+      setErrorMessage(null);
+    } catch (error) {
+      console.error("Error adding team:", error);
     }
   };
 
-  const handleAddScore = async () => {
+  const handleAddScore = async (): Promise<boolean> => {
     const isTennisValid =
       competition.type === "tennis" && homeTeam && awayTeam && homeScore;
     const isScoredValid =
@@ -69,8 +83,12 @@ const CompetitionCard = ({
       });
 
       if (existingMatch) {
-        alert("These teams have already played against each other!");
-        return;
+        setErrorMessage(
+          competition.type === "tennis"
+            ? "These players have already played against each other!"
+            : "These teams have already played against each other!"
+        );
+        return false;
       }
 
       try {
@@ -95,10 +113,14 @@ const CompetitionCard = ({
         setAwayTeam("");
         setHomeScore("");
         setAwayScore("");
+        setErrorMessage(null);
+        return true;
       } catch (error) {
         console.error("Error adding score:", error);
+        return false;
       }
     }
+    return false;
   };
 
   return (
@@ -134,6 +156,7 @@ const CompetitionCard = ({
       >
         <AddTeamsAndScores
           competitionType={competition.type}
+          competitionId={competition.id}
           teams={teams}
           handleAddTeam={handleAddTeam}
           handleAddScore={handleAddScore}
@@ -147,6 +170,8 @@ const CompetitionCard = ({
           setAwayScore={setAwayScore}
           teamName={teamName}
           setTeamName={setTeamName}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
         />
 
         {competition.type === "basketball" && (
