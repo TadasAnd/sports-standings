@@ -1,0 +1,32 @@
+export const getFlag = (teamName: string): string => {
+  const flagMap: Record<string, string> = {
+    lithuania: "🇱🇹",
+    spain: "🇪🇸",
+    france: "🇫🇷",
+    germany: "🇩🇪",
+    uk: "🇬🇧",
+    "great britain": "🇬🇧",
+    italy: "🇮🇹",
+    portugal: "🇵🇹",
+    netherlands: "🇳🇱",
+    belgium: "🇧🇪",
+    sweden: "🇸🇪",
+    norway: "🇳🇴",
+    denmark: "🇩🇰",
+    poland: "🇵🇱",
+    croatia: "🇭🇷",
+    serbia: "🇷🇸",
+    greece: "🇬🇷",
+    turkey: "🇹🇷",
+    turkiye: "🇹🇷",
+    latvia: "🇱🇻",
+    estonia: "🇪🇪",
+    hungary: "🇭🇺",
+    slovakia: "🇸🇰",
+    czechia: "🇨🇿",
+    finland: "🇫🇮",
+    iceland: "🇮🇸",
+    slovenia: "🇸🇮",
+  };
+  return flagMap[teamName.toLowerCase()] || "🏳️";
+};
