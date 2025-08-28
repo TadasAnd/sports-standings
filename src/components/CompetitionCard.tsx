@@ -125,7 +125,7 @@ const CompetitionCard = ({
 
   return (
     <div
-      className={`rounded-md w-full lg:w-1/3`}
+      className={`rounded-md w-full lg:w-1/3 max-w-[400px] min-w-[340px]`}
       style={{ fontFamily: getCardTheme(competition.type).fontFamily }}
     >
       <div
